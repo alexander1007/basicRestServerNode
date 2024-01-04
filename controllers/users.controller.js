@@ -1,11 +1,10 @@
 const { response, request } = require("express");
-const { cryptPassword } = require("../helpers/crypt");
-
-const User = require("../models/user.model");
+const { cryptPassword } = require("../helpers");
+const { User } = require("../models");
 
 const usersGet = async (req = request, res = response) => {
   const {
-    query: { limit = 5, from = 1 },
+    query: { limit = 5, from = 0 },
   } = req;
 
   const condition = { status: true };

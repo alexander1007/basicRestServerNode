@@ -1,9 +1,4 @@
 const { response, request } = require("express");
-const jwt = require("jsonwebtoken");
-const User = require("../models/user.model");
-const {
-  env: { SECRET_KEY: key },
-} = process;
 
 const isAdminRole = async (req = request, res = response, next) => {
   const { authUser } = req;
@@ -30,7 +25,7 @@ const hasPermittedRole = (...roles) => {
         .json({ msg: "Attempt to verify role without exist token" });
     }
 
-    const { role, name } = authUser;
+    const { role } = authUser;
     if (!roles.includes(role)) {
       res
         .status(401)

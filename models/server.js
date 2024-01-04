@@ -6,8 +6,24 @@ class Server {
   constructor() {
     this.app = express();
     this.port = process.env.PORT;
-    this.usersRoutes = "/api/users";
-    this.authRoutes = "/api/auth";
+    this.paths = {
+      auth: {
+        path: "/api/auth",
+        url: "../routes/auth.route",
+      },
+      categories: {
+        path: "/api/categories",
+        url: "../routes/categories.route",
+      },
+      products: {
+        path: "/api/products",
+        url: "../routes/products.route",
+      },
+      users: {
+        path: "/api/users",
+        url: "../routes/user.route",
+      },
+    };
     this.connectDB();
     this.middlewares();
     this.routes();
@@ -17,8 +33,11 @@ class Server {
     await dbConnection();
   }
   routes() {
-    this.app.use(this.authRoutes, require("../routes/auth.route"));
-    this.app.use(this.usersRoutes, require("../routes/user.route"));
+    const paths = Object.keys(this.paths);
+    paths.forEach((element) => {
+      const { path, url } = this.paths[element];
+      this.app.use(path, require(url));
+    });
   }
   middlewares() {
     this.app.use(cors());
