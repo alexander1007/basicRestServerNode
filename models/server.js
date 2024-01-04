@@ -7,6 +7,7 @@ class Server {
     this.app = express();
     this.port = process.env.PORT;
     this.usersRoutes = "/api/users";
+    this.authRoutes = "/api/auth";
     this.connectDB();
     this.middlewares();
     this.routes();
@@ -16,6 +17,7 @@ class Server {
     await dbConnection();
   }
   routes() {
+    this.app.use(this.authRoutes, require("../routes/auth.route"));
     this.app.use(this.usersRoutes, require("../routes/user.route"));
   }
   middlewares() {
