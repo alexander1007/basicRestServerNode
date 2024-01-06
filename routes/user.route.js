@@ -14,7 +14,6 @@ const {
   usersDelete,
   usersPatch,
 } = require("../controllers");
-
 const router = Router();
 
 router.get("/", usersGet);
